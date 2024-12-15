@@ -8,11 +8,15 @@ export default {
   ],
   theme: {
     extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+      textShadow: {
+        DEFAULT: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+        lg: "6px 4px 6px rgba(0, 0, 0, 1)",
+      },
+
+      fontFamily: {
+        alice: "Alice, sans-serif",
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-textshadow")],
 } satisfies Config;
