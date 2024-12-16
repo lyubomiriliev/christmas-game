@@ -19,7 +19,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, content, level }) => {
           alt="/"
           width={1200}
           height={600}
-          className="w-full absolute p-6 inset-0 opacity-20 z-0"
+          className="w-full absolute p-6 inset-0 opacity-15 z-0"
         />
         <button
           onClick={onClose}
@@ -28,10 +28,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, content, level }) => {
           &times;
         </button>
         <div className="text-center">
-          <h2 className="text-7xl font-bold mb-4 text-gray-800">
-            Ниво {level}
+          <h2 className="text-7xl font-bold mb-4 text-black">
+            Ниво {Number(level) + 1}
           </h2>
-          <p className="text-gray-700 text-3xl">{content}</p>
+          <p className="text-black text-3xl">{content}</p>
         </div>
       </div>
     </div>
