@@ -12,44 +12,81 @@ export default function Home() {
   const [modalNumber, setModalNumber] = useState<number | null>(null); // Track the index of the currently opened modal
   const [currentHouse, setCurrentHouse] = useState(0); // Tracks the currently active house
   const [houseTimers, setHouseTimers] = useState<(number | null)[]>([]); // Stores the availability times for houses
-  const [currentTime, setCurrentTime] = useState<number>(Date.now());
+  const [currentTime, setCurrentTime] = useState<number | null>(null); // Set to `null` initially to avoid SSR mismatches
 
-  const DELAY = 10 * 1000; // Timer delay in milliseconds
+  const DELAY = 5 * 1000; // Timer delay in milliseconds
+  const FINAL_UNLOCK_TIME = new Date("2024-12-24T23:59:50").getTime();
 
   // Initialize timers for houses
   useEffect(() => {
-    const initialTimers = houses.map((_, index) => {
-      return index === 0 ? 0 : null; // House 1 is unlocked (0), others are locked (null)
-    });
-    setHouseTimers(initialTimers);
+    const savedTimers = localStorage.getItem("houseTimers");
+    const savedCurrentHouse = localStorage.getItem("currentHouse");
+
+    if (savedTimers && savedCurrentHouse) {
+      // Load saved state from localStorage
+      setHouseTimers(JSON.parse(savedTimers));
+      setCurrentHouse(Number(savedCurrentHouse));
+    } else {
+      // Initialize state if no saved data exists
+      const initialTimers = houses.map((_, index) => {
+        return index === 0 ? 0 : null; // House 1 is unlocked (0), others are locked (null)
+      });
+      setHouseTimers(initialTimers);
+    }
+    // Set initial time after the component has mounted
+    setCurrentTime(Date.now());
   }, []);
 
   // Update current time every second
   useEffect(() => {
+    if (currentTime === null) return; // Ensure the timer starts only after the component has mounted
+
     const interval = setInterval(() => {
       setCurrentTime(Date.now());
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [currentTime]);
+
+  // Save state to localStorage whenever timers or current house changes
+  useEffect(() => {
+    if (houseTimers.length > 0) {
+      localStorage.setItem("houseTimers", JSON.stringify(houseTimers));
+    }
+    localStorage.setItem("currentHouse", String(currentHouse));
+  }, [houseTimers, currentHouse]);
 
   // Calculate remaining countdown time for locked houses
   const calculateCountdown = (targetTime: number | null) => {
-    if (targetTime === null) return { minutes: 0, seconds: 0 }; // No timer for locked houses
+    if (targetTime === null || currentTime === null)
+      return { days: 0, hours: 0, minutes: 0, seconds: 0 }; // No timer for locked houses
     const remaining = Math.max(targetTime - currentTime, 0);
+    const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((remaining / (1000 * 60 * 60)) % 24);
     const minutes = Math.floor((remaining / 1000 / 60) % 60);
     const seconds = Math.floor((remaining / 1000) % 60);
-    return { minutes, seconds };
+    return { days, hours, minutes, seconds };
   };
 
   // Open the modal for the current house
   const handleOpenModal = (content: string, id: string, houseIndex: number) => {
     if (
       houseTimers[houseIndex] !== null &&
+      currentTime !== null &&
       currentTime >= houseTimers[houseIndex]!
     ) {
       setModalContent(content);
       setModalOpen(true);
       setModalNumber(houseIndex); // Set the modalNumber to the index of the house
+    }
+
+    if (
+      houseIndex === houses.length - 1 &&
+      currentTime !== null &&
+      currentTime >= FINAL_UNLOCK_TIME
+    ) {
+      setModalContent(content);
+      setModalOpen(true);
+      setModalNumber(houseIndex);
     }
   };
 
@@ -59,13 +96,11 @@ export default function Home() {
     setModalContent("");
 
     // Only trigger the next house's timer if the modal for the current house was closed
-    if (modalNumber === currentHouse) {
-      if (currentHouse + 1 < houses.length) {
-        const updatedTimers = [...houseTimers];
-        updatedTimers[currentHouse + 1] = currentTime + DELAY; // Set the timer for the next house
-        setHouseTimers(updatedTimers);
-        setCurrentHouse(currentHouse + 1); // Move to the next house
-      }
+    if (modalNumber === currentHouse && currentHouse + 1 < houses.length - 1) {
+      const updatedTimers = [...houseTimers];
+      updatedTimers[currentHouse + 1] = (currentTime ?? 0) + DELAY; // Set the timer for the next house
+      setHouseTimers(updatedTimers);
+      setCurrentHouse(currentHouse + 1); // Move to the next house
     }
   };
 
@@ -97,9 +132,17 @@ export default function Home() {
       </div>
 
       {houses.map((house, index) => {
-        const { minutes, seconds } = calculateCountdown(houseTimers[index]);
-        const isAvailable =
-          houseTimers[index] !== null && currentTime >= houseTimers[index]!;
+        const isFinalHouse = index === houses.length - 1; // Check if it's the final house
+        const { days, hours, minutes, seconds } = calculateCountdown(
+          isFinalHouse ? FINAL_UNLOCK_TIME : houseTimers[index]
+        );
+        const isAvailable = isFinalHouse
+          ? currentTime !== null && currentTime >= FINAL_UNLOCK_TIME
+          : houseTimers[index] !== null &&
+            currentTime !== null &&
+            currentTime >= houseTimers[index]!;
+
+        const shouldShowTimer = index === currentHouse || isFinalHouse; // Only show timer for the current house or the final house
 
         return (
           <div
@@ -119,9 +162,11 @@ export default function Home() {
             />
 
             {/* Timer */}
-            {!isAvailable && houseTimers[index] !== null && (
+            {!isAvailable && shouldShowTimer && (
               <div className="absolute w-40 top-0 left-40 bg-white text-center text-black font-alice text-lg p-2 rounded z-50">
-                Отключване след {minutes}мин {seconds}секунди
+                {isFinalHouse
+                  ? `Отключване след ${days}д, ${hours}ч, ${minutes}мин и ${seconds}сек`
+                  : `Отключване след ${minutes}мин и ${seconds}сек`}
               </div>
             )}
           </div>
@@ -133,6 +178,7 @@ export default function Home() {
         onClose={handleCloseModal}
         content={modalContent}
         level={modalNumber?.toString() || ""}
+        game={modalNumber !== null ? houses[modalNumber]?.game : undefined}
       />
     </section>
   );
