@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 interface ModalProps {
@@ -12,7 +13,14 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, content, level }) => {
 
   return (
     <div className="fixed inset-0 p-6 bg-black bg-opacity-75 flex justify-center items-center z-50">
-      <div className="bg-white rounded-lg w-full h-full p-8 relative">
+      <div className="bg-white rounded-lg w-full flex flex-col justify-center items-center h-full p-8 relative overflow-hidden z-20">
+        <Image
+          src="/modalBG.png"
+          alt="/"
+          width={1200}
+          height={600}
+          className="w-full absolute p-6 inset-0 opacity-20 z-0"
+        />
         <button
           onClick={onClose}
           className="absolute top-6 right-6 text-5xl text-gray-600 hover:text-gray-800"
@@ -20,10 +28,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, content, level }) => {
           &times;
         </button>
         <div className="text-center">
-          <h2 className="text-4xl font-bold mb-4 text-gray-800">
+          <h2 className="text-7xl font-bold mb-4 text-gray-800">
             Ниво {level}
           </h2>
-          <p className="text-gray-700">{content}</p>
+          <p className="text-gray-700 text-3xl">{content}</p>
         </div>
       </div>
     </div>
