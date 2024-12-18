@@ -26,22 +26,20 @@ export const houses = [
     id: "2",
     src: "/houses/house2x.png",
     player: "Monnie & Carrie",
-    playerPic: "",
+    playerPic: "/monnieCarrie.png",
     alt: "Level 2",
-    content: "Solve this riddle to proceed.",
+    content: "TikTok Challenge - Редувайте се! Камък ножица, хартия",
     position:
       "w-[300px] top-[403px] -left-[50px] md:w-[585px] md:top-[766px] md:-left-[106px] lg:w-[650px] lg:top-[900px] lg:left-[374px]",
     game: {
-      type: "puzzle",
-      description: "I speak without a mouth and hear without ears. What am I?",
-      answer: "An echo",
+      type: "tikTok",
     },
   },
   {
     id: "3",
     src: "/houses/house3x.png",
     player: "Marti",
-    playerPic: "",
+    playerPic: "/marti.png",
     alt: "Level 3",
     content:
       "Премести дисковете на последната кула подредени от голям към малък.",
@@ -55,21 +53,23 @@ export const houses = [
     id: "4",
     src: "/houses/house4x.png",
     player: "Chris",
-    playerPic: "",
+    playerPic: "/chris.png",
 
     alt: "Level 4",
-    content: "Твоята игра те очаква! Натисни бутона",
+    content: "",
     position:
       "w-[250px] top-[643px] -left-[50px] md:w-[550px] md:top-[1200px] md:-left-[170px] lg:w-[550px] lg:top-[1435px] lg:left-[360px]",
     game: {
       type: "slidePuzzle",
+      title: "Играеш за време! Натисни бутона, когато си готов.",
+      obj: "Нареди пъзела: Числата трябва да са последователни като най-долното дясно поле трябва да остане празно.",
     },
   },
   {
     id: "5",
     src: "/houses/house5x.png",
     player: "Monnie",
-    playerPic: "",
+    playerPic: "/monnie.png",
     alt: "Level 5",
     content: "Answer this quiz to pass the level.",
     position:
@@ -90,7 +90,7 @@ export const houses = [
     id: "6",
     src: "/houses/house6x.png",
     player: "Carrie",
-    playerPic: "",
+    playerPic: "/carrie.png",
     alt: "Level 6",
     content: "Unscramble the word to win.",
     position:
@@ -105,7 +105,7 @@ export const houses = [
     id: "7",
     src: "/houses/house7x.png",
     player: "Marti",
-    playerPic: "",
+    playerPic: "/marti.png",
 
     alt: "Level 7",
     content: "Find the hidden word in the grid.",
@@ -126,7 +126,7 @@ export const houses = [
     id: "8",
     src: "/houses/house8x.png",
     player: "Chris",
-    playerPic: "",
+    playerPic: "/chris.png",
     alt: "Level 8",
     content: "Реши задачата за да продължиш.",
     position:
@@ -139,7 +139,7 @@ export const houses = [
     id: "ФИНАЛ",
     src: "/houses/finalx2.png",
     player: "ВСИЧКИ",
-    playerPic: "",
+    playerPic: "/all.png",
     alt: "Final Level",
     content: "Congratulations! Claim your final prize.",
     position:

@@ -125,7 +125,7 @@ const Modal: React.FC<ModalProps> = ({
                 alt="/"
                 width={600}
                 height={300}
-                className="w-[80%]"
+                className="w-[95%]"
               />
             </div>
             <div>
@@ -143,9 +143,13 @@ const Modal: React.FC<ModalProps> = ({
           </div>
         );
       case "slidePuzzle":
+        const gameTitle = game.title;
+        const gameObj = game.obj;
         return (
-          <div className="w-full flex justify-center items-center scale-125">
+          <div className="w-full flex flex-col justify-center items-center scale-125">
             <SlidePuzzle
+              gameTitle={gameTitle}
+              gameObj={gameObj}
               onComplete={() => {
                 alert("Пъзелът е решен. Браво! Твоята улика е:");
                 onClose(); // Close the modal on completion
@@ -164,6 +168,30 @@ const Modal: React.FC<ModalProps> = ({
           <div>
             <p className="text-2xl">{game.description}</p>
             <p className="italic text-sm mt-4">Hint: {game.answer}</p>
+          </div>
+        );
+      case "tikTok":
+        return (
+          <div>
+            <h1 className="text-3xl text-white font-bold text-center my-4">
+              TikTok Challenge
+            </h1>
+            <video
+              width={340}
+              height={200}
+              controls
+              className="rounded shadow-lg mx-auto mb-2"
+              src="/FullSizeRender_1.mov"
+            ></video>
+            <a
+              href="https://vm.tiktok.com/ZNeT7NnQo/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <button className="px-6 py-3 bg-red-500 text-white font-bold rounded-lg">
+                ЗАПОЧНИ ИГРАТА
+              </button>
+            </a>
           </div>
         );
       case "memory":
@@ -205,15 +233,18 @@ const Modal: React.FC<ModalProps> = ({
             <Image
               src={playerPic}
               alt={player}
-              width={120}
-              height={120}
-              className="object-cover rounded-full"
+              width={140}
+              height={140}
+              unoptimized
+              className={`object-cover rounded-full ${
+                playerPic === "/all.png" ? "w-2/4" : "w-[125px]"
+              }`}
             />
-            <h2 className="text-5xl text-left font-bold font-alice mb-4 uppercase text-white text-shadow-DEFAULT">
+            <h2 className="text-4xl text-left font-bold font-alice mb-4 uppercase text-white text-shadow-DEFAULT">
               Играч: {player}
             </h2>
           </div>
-          <p className="text-white text-4xl text-shadow-DEFAULT uppercase mb-6">
+          <p className="text-white text-4xl text-shadow-DEFAULT uppercase">
             {content}
           </p>
           {renderGameContent()}

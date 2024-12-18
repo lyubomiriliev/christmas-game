@@ -15,7 +15,7 @@ export default function Home() {
   const [currentTime, setCurrentTime] = useState<number | null>(null); // Set to `null` initially to avoid SSR mismatches
 
   const DELAY = 5 * 1000; // Timer delay in milliseconds
-  const FINAL_UNLOCK_TIME = new Date("2024-12-24T23:59:50").getTime();
+  const FINAL_UNLOCK_TIME = new Date("2024-12-24T23:00:00").getTime();
 
   // Initialize timers for houses
   useEffect(() => {

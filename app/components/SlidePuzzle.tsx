@@ -4,9 +4,15 @@ import React, { useEffect, useState } from "react";
 
 interface SlidePuzzleProps {
   onComplete: () => void; // Callback when the puzzle is solved
+  gameTitle: string;
+  gameObj: string;
 }
 
-const SlidePuzzle: React.FC<SlidePuzzleProps> = ({ onComplete }) => {
+const SlidePuzzle: React.FC<SlidePuzzleProps> = ({
+  onComplete,
+  gameTitle,
+  gameObj,
+}) => {
   const SIZE = 4; // 4x4 grid
   const TOTAL_TILES = SIZE * SIZE;
   const [tiles, setTiles] = useState<number[]>([]);
@@ -30,6 +36,9 @@ const SlidePuzzle: React.FC<SlidePuzzleProps> = ({ onComplete }) => {
     shuffled = shuffle(shuffled);
     setTiles(shuffled);
     setShowPuzzle(true); // Show the puzzle
+  };
+
+  const startTimer = () => {
     setTimeElapsed(0); // Reset the timer
     setTimerRunning(true); // Start the timer
   };
@@ -79,17 +88,39 @@ const SlidePuzzle: React.FC<SlidePuzzleProps> = ({ onComplete }) => {
   return (
     <div className="flex flex-col items-center gap-4">
       {!showPuzzle ? (
-        <button
-          onClick={initializePuzzle}
-          className="px-6 py-3 bg-red-500 text-white uppercase rounded-lg text-xl font-bold hover:bg-red-700 transition"
-        >
-          Започни играта
-        </button>
+        <div>
+          <h1 className="text-white text-3xl max-w-md text-shadow-DEFAULT pb-10">
+            {gameTitle}
+          </h1>
+          <button
+            onClick={initializePuzzle}
+            className="px-6 py-3 bg-red-500 text-white uppercase rounded-lg text-xl font-bold hover:bg-red-700 transition"
+          >
+            Започни играта
+          </button>
+        </div>
       ) : (
         <>
-          <div className="text-2xl font-medium mb-4 text-white">
-            Време: {Math.floor(timeElapsed / 60)}мин и {timeElapsed % 60}сек.
-          </div>
+          <h1 className="text-white text-2xl max-w-md text-shadow-DEFAULT">
+            {gameObj}
+          </h1>
+          {!timerRunning && (
+            <div>
+              <button
+                className="bg-red-600 px-6 py-1 rounded-lg text-white font-bold"
+                onClick={startTimer}
+              >
+                СТАРТ
+              </button>
+            </div>
+          )}
+          {timerRunning && (
+            <div className="text-2xl font-medium mb-4 text-white text-shadow-DEFAULT">
+              Време: {Math.floor(timeElapsed / 60)} : {timeElapsed % 60} | Цел:
+              3:00
+            </div>
+          )}
+
           <div className="grid grid-cols-4 gap-2 w-80 h-80">
             {tiles.map((tile, index) => (
               <div
