@@ -2,12 +2,14 @@ export const houses = [
   {
     id: "1",
     src: "/houses/house1x.png",
+    player: "Terry",
+    playerPic: "/terry.png",
     alt: "Level 1",
-    content: "Welcome to the first level! Solve the following quiz.",
+    content: "Къде е Мама?",
     position:
       "w-[255px] top-[315px] -right-[35px] md:w-[530px] md:top-[587px] md:-right-[106px] lg:w-[585px] lg:top-[695px] lg:right-[380px]",
     game: {
-      type: "quiz",
+      type: "terry",
       questions: [
         { question: "What is 2 + 2?", options: ["3", "4", "5"], answer: "4" },
         {
@@ -16,11 +18,15 @@ export const houses = [
           answer: "Paris",
         },
       ],
+      mama: "/mama.png",
+      hint: "Подаркът ти е зад теб!",
     },
   },
   {
     id: "2",
     src: "/houses/house2x.png",
+    player: "Monnie & Carrie",
+    playerPic: "",
     alt: "Level 2",
     content: "Solve this riddle to proceed.",
     position:
@@ -34,31 +40,36 @@ export const houses = [
   {
     id: "3",
     src: "/houses/house3x.png",
+    player: "Marti",
+    playerPic: "",
     alt: "Level 3",
-    content: "Match the cards to win this level.",
+    content:
+      "Премести дисковете на последната кула подредени от голям към малък.",
     position:
       "w-[165px] top-[569px] -right-[13px] md:w-[340px] md:top-[1065px] md:-right-[44px] lg:w-[390px] lg:top-[1256px] lg:right-[450px]",
     game: {
-      type: "memory",
-      cards: ["apple", "banana", "apple", "banana"], // Example card pairs
+      type: "hanoi",
     },
   },
   {
     id: "4",
     src: "/houses/house4x.png",
+    player: "Chris",
+    playerPic: "",
+
     alt: "Level 4",
-    content: "Complete this sequence to move forward.",
+    content: "Твоята игра те очаква! Натисни бутона",
     position:
       "w-[250px] top-[643px] -left-[50px] md:w-[550px] md:top-[1200px] md:-left-[170px] lg:w-[550px] lg:top-[1435px] lg:left-[360px]",
     game: {
-      type: "sequence",
-      sequence: ["1", "2", "3", "4"], // Sequence to complete
-      missing: "5", // Missing item
+      type: "slidePuzzle",
     },
   },
   {
     id: "5",
     src: "/houses/house5x.png",
+    player: "Monnie",
+    playerPic: "",
     alt: "Level 5",
     content: "Answer this quiz to pass the level.",
     position:
@@ -78,6 +89,8 @@ export const houses = [
   {
     id: "6",
     src: "/houses/house6x.png",
+    player: "Carrie",
+    playerPic: "",
     alt: "Level 6",
     content: "Unscramble the word to win.",
     position:
@@ -91,6 +104,9 @@ export const houses = [
   {
     id: "7",
     src: "/houses/house7x.png",
+    player: "Marti",
+    playerPic: "",
+
     alt: "Level 7",
     content: "Find the hidden word in the grid.",
     position:
@@ -109,19 +125,21 @@ export const houses = [
   {
     id: "8",
     src: "/houses/house8x.png",
+    player: "Chris",
+    playerPic: "",
     alt: "Level 8",
-    content: "Complete the sentence.",
+    content: "Реши задачата за да продължиш.",
     position:
       "w-[305px] top-[996px] -right-[50px] md:w-[500px] md:top-[2410px] md:-right-[20px] lg:w-[390px] lg:top-[1256px] lg:right-[450px]",
     game: {
-      type: "sentenceCompletion",
-      sentence: "The holiday season is all about _____.",
-      answer: "joy",
+      type: "chrisMath",
     },
   },
   {
     id: "ФИНАЛ",
     src: "/houses/finalx2.png",
+    player: "ВСИЧКИ",
+    playerPic: "",
     alt: "Final Level",
     content: "Congratulations! Claim your final prize.",
     position:

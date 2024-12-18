@@ -108,13 +108,16 @@ export default function Home() {
     <section className="w-full h-full flex justify-center bg-slate-900 mx-auto relative">
       <SnowfallEffect />
       <div className="w-full flex flex-col justify-center items-center absolute py-10">
-        <h1 className="text-5xl max-w-screen-sm text-center text-white text-shadow-lg font-alice">
+        <h1 className="text-5xl max-w-screen-sm text-center text-white text-shadow-lg ">
           КОЛЕДНАТА ИГРА НА
         </h1>
-        <h1 className="text-7xl max-w-screen-sm text-center text-white text-shadow-lg font-alice">
+        <h1 className="text-7xl max-w-screen-sm text-center text-white text-shadow-lg ">
           КРИС, МАРТИ КАРИ И МОНИ
         </h1>
-        <h2 className="text-4xl max-w-screen-sm text-center text-white text-shadow-lg font-alice mt-20">
+        <span className="text-white text-5xl text-shadow-lg uppercase">
+          + Тери
+        </span>
+        <h2 className="text-4xl max-w-screen-sm text-center text-white text-shadow-lg  mt-20">
           Натиснете върху светещите къщи, за да получите вашите насоки.
         </h2>
       </div>
@@ -163,7 +166,7 @@ export default function Home() {
 
             {/* Timer */}
             {!isAvailable && shouldShowTimer && (
-              <div className="absolute w-40 top-0 left-40 bg-white text-center text-black font-alice text-lg p-2 rounded z-50">
+              <div className="absolute w-40 top-0 left-40 bg-white text-center text-black  text-lg p-2 rounded z-50">
                 {isFinalHouse
                   ? `Отключване след ${days}д, ${hours}ч, ${minutes}мин и ${seconds}сек`
                   : `Отключване след ${minutes}мин и ${seconds}сек`}
@@ -179,6 +182,8 @@ export default function Home() {
         content={modalContent}
         level={modalNumber?.toString() || ""}
         game={modalNumber !== null ? houses[modalNumber]?.game : undefined}
+        player={modalNumber !== null ? houses[modalNumber]?.player : ""}
+        playerPic={modalNumber !== null ? houses[modalNumber]?.playerPic : ""}
       />
     </section>
   );

@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="overflow-x-hidden">
-      <body className="overflow-x-hidden">{children}</body>
+      <body className="overflow-x-hidden font-alice">{children}</body>
     </html>
   );
 }
