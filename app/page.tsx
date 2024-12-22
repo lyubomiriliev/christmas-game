@@ -15,7 +15,7 @@ export default function Home() {
   const [currentTime, setCurrentTime] = useState<number | null>(null); // Set to `null` initially to avoid SSR mismatches
 
   //HOUSES DELAY TIME:
-  const DELAY = 0.1 * 60 * 1000; // Timer delay in milliseconds
+  const DELAY = 0.5 * 60 * 1000; // Timer delay in milliseconds
   const FINAL_UNLOCK_TIME = new Date("2024-12-24T23:00:00").getTime();
 
   // Initialize timers for houses
@@ -70,20 +70,27 @@ export default function Home() {
 
   // Open the modal for the current house
   const handleOpenModal = (content: string, id: string, houseIndex: number) => {
-    if (!currentTime) return; // Prevent any interaction when currentTime is null
+    if (!currentTime) return; // Prevent interaction when currentTime is null
 
-    // Check for non-final houses
-    if (
-      houseTimers[houseIndex] !== null &&
-      currentTime >= houseTimers[houseIndex]!
-    ) {
-      setModalContent(content);
-      setModalOpen(true);
-      setModalNumber(houseIndex);
-    }
-
-    // Check for final house with strict condition
-    if (houseIndex === houses.length - 1 && currentTime >= FINAL_UNLOCK_TIME) {
+    if (houseIndex < 4) {
+      // Logic for the first four houses with timers
+      if (
+        houseTimers[houseIndex] !== null &&
+        currentTime >= houseTimers[houseIndex]!
+      ) {
+        setModalContent(content);
+        setModalOpen(true);
+        setModalNumber(houseIndex);
+      }
+    } else if (houseIndex === houses.length - 1) {
+      // Final house logic
+      if (currentTime >= FINAL_UNLOCK_TIME) {
+        setModalContent(content);
+        setModalOpen(true);
+        setModalNumber(houseIndex);
+      }
+    } else {
+      // Houses 5-8 require password
       setModalContent(content);
       setModalOpen(true);
       setModalNumber(houseIndex);
@@ -148,7 +155,8 @@ export default function Home() {
         // Default to non-available if currentTime is null
         const isHouseDisabled = !currentTime || (!isAvailable && !isFinalHouse);
 
-        const shouldShowTimer = index === currentHouse || isFinalHouse; // Only show timer for the current house or the final house
+        const shouldShowTimer =
+          isFinalHouse || (index < 4 && index === currentHouse);
 
         return (
           <div
@@ -162,8 +170,10 @@ export default function Home() {
               alt={house.alt}
               width={600}
               height={400}
-              className={`hover:scale-110 duration-300 ease-in-out ${
-                !isAvailable ? "blur-sm pointer-events-none" : "cursor-pointer"
+              className={`hover-scale-110 duration-300 ease-in-out ${
+                ((index >= 0 && index <= 3) || isFinalHouse) && !isAvailable
+                  ? "blur-sm pointer-events-none"
+                  : "cursor-pointer"
               }`}
             />
 

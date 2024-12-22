@@ -33,12 +33,35 @@ const Modal: React.FC<ModalProps> = ({
   const [showHint, setShowHint] = useState("");
   const [gameFinish, setGameFinish] = useState(false);
 
+  const [passwordInput, setPasswordInput] = useState("");
+  const [showPassword, setShowPassword] = useState(true);
+
   const [mathAnswer, setMathAnswer] = useState<string>(""); // State for the input value
   const correctAnswer = 2719 * 77; // Calculate the correct answer once
 
   const handleGameFinished = (hint: string) => {
     setGameFinish(!gameFinish);
     setShowHint(hint);
+  };
+
+  const checkPassword = () => {
+    const correctPassword = "vyara123";
+    if (passwordInput === correctPassword) {
+      alert("Поздравления! Успешно отключихте нивото.");
+      setShowPassword(!showPassword);
+    } else {
+      alert("Грешна парола. Опитайте отново.");
+    }
+  };
+
+  const resetPasswordState = () => {
+    setPasswordInput("");
+    setShowPassword(true);
+  };
+
+  const handleClose = () => {
+    onClose();
+    resetPasswordState(); // Reset password input and state when modal closes
   };
 
   if (!isOpen) return null;
@@ -214,42 +237,68 @@ const Modal: React.FC<ModalProps> = ({
 
   return (
     <div className="fixed inset-0 p-6 bg-black bg-opacity-75 flex flex-col justify-start items-start z-50">
-      <div className="bg-black rounded-lg w-full h-full flex flex-col justify-center items-center p-8 relative overflow-hidden z-20">
-        <Image
-          src="/opencardBG.png"
-          alt="/"
-          width={1200}
-          height={600}
-          className="w-full h-full absolute inset-0 blur-sm opacity-70 z-0"
-        />
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-6 text-5xl text-white hover:text-black"
-        >
-          &times;
-        </button>
-        <div className="text-center z-10 flex flex-col justify-center gap-10">
-          <div className="flex items-center justify-center gap-5">
-            <Image
-              src={playerPic}
-              alt={player}
-              width={140}
-              height={140}
-              unoptimized
-              className={`object-cover rounded-full ${
-                playerPic === "/all.png" ? "w-2/4" : "w-[125px]"
-              }`}
-            />
-            <h2 className="text-4xl text-left font-bold font-alice mb-4 uppercase text-white text-shadow-DEFAULT">
-              Играч: {player}
-            </h2>
+      {showPassword ? (
+        <div className="w-full flex flex-col justify-center h-screen items-center">
+          <h2 className="text-white text-2xl mb-4">Въведете парола:</h2>
+          <input
+            type="password"
+            value={passwordInput}
+            onChange={(e) => setPasswordInput(e.target.value)}
+            className="p-2 rounded border text-black"
+          />
+          <div className="flex items-center justify-center mt-4 gap-4">
+            <button
+              onClick={checkPassword}
+              className="px-6 py-3 bg-green-600 text-white rounded hover:bg-green-700"
+            >
+              Потвърди
+            </button>
+            <button
+              onClick={handleClose}
+              className="bg-red-600 px-6 py-3 rounded text-white"
+            >
+              X
+            </button>
           </div>
-          <p className="text-white text-4xl text-shadow-DEFAULT uppercase">
-            {content}
-          </p>
-          {renderGameContent()}
         </div>
-      </div>
+      ) : (
+        <div className="bg-black rounded-lg w-full h-full flex flex-col justify-center items-center p-8 relative overflow-hidden z-20">
+          <Image
+            src="/opencardBG.png"
+            alt="/"
+            width={1200}
+            height={600}
+            className="w-full h-full absolute inset-0 blur-sm opacity-70 z-0"
+          />
+          <button
+            onClick={handleClose}
+            className="absolute top-4 right-6 text-5xl text-white hover:text-black"
+          >
+            &times;
+          </button>
+          <div className="text-center z-10 flex flex-col justify-center gap-10">
+            <div className="flex items-center justify-center gap-5">
+              <Image
+                src={playerPic}
+                alt={player}
+                width={140}
+                height={140}
+                unoptimized
+                className={`object-cover rounded-full ${
+                  playerPic === "/all.png" ? "w-2/4" : "w-[125px]"
+                }`}
+              />
+              <h2 className="text-4xl text-left font-bold font-alice mb-4 uppercase text-white text-shadow-DEFAULT">
+                Играч: {player}
+              </h2>
+            </div>
+            <p className="text-white text-4xl text-shadow-DEFAULT uppercase">
+              {content}
+            </p>
+            {renderGameContent()}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
