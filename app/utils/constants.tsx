@@ -143,7 +143,7 @@ export const houses = [
     alt: "Final Level",
     content: "Congratulations! Claim your final prize.",
     position:
-      "w-[250px] top-[908px] -left-[53px] md:w-[580px] md:top-[2975px] md:-left-[77px] lg:w-[550px] lg:top-[2015px] lg:left-[360px]",
+      "w-[250px] top-[908px] -left-[53px] md:w-[580px] md:top-[2961px] md:-left-[74px] lg:w-[550px] lg:top-[2015px] lg:left-[360px]",
     game: {
       type: "final",
       message: "Enjoy your special surprise!",

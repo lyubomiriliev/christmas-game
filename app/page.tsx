@@ -14,7 +14,8 @@ export default function Home() {
   const [houseTimers, setHouseTimers] = useState<(number | null)[]>([]); // Stores the availability times for houses
   const [currentTime, setCurrentTime] = useState<number | null>(null); // Set to `null` initially to avoid SSR mismatches
 
-  const DELAY = 5 * 1000; // Timer delay in milliseconds
+  //HOUSES DELAY TIME:
+  const DELAY = 0.1 * 60 * 1000; // Timer delay in milliseconds
   const FINAL_UNLOCK_TIME = new Date("2024-12-24T23:00:00").getTime();
 
   // Initialize timers for houses
@@ -69,21 +70,20 @@ export default function Home() {
 
   // Open the modal for the current house
   const handleOpenModal = (content: string, id: string, houseIndex: number) => {
+    if (!currentTime) return; // Prevent any interaction when currentTime is null
+
+    // Check for non-final houses
     if (
       houseTimers[houseIndex] !== null &&
-      currentTime !== null &&
       currentTime >= houseTimers[houseIndex]!
     ) {
       setModalContent(content);
       setModalOpen(true);
-      setModalNumber(houseIndex); // Set the modalNumber to the index of the house
+      setModalNumber(houseIndex);
     }
 
-    if (
-      houseIndex === houses.length - 1 &&
-      currentTime !== null &&
-      currentTime >= FINAL_UNLOCK_TIME
-    ) {
+    // Check for final house with strict condition
+    if (houseIndex === houses.length - 1 && currentTime >= FINAL_UNLOCK_TIME) {
       setModalContent(content);
       setModalOpen(true);
       setModalNumber(houseIndex);
@@ -140,10 +140,13 @@ export default function Home() {
           isFinalHouse ? FINAL_UNLOCK_TIME : houseTimers[index]
         );
         const isAvailable = isFinalHouse
-          ? currentTime !== null && currentTime >= FINAL_UNLOCK_TIME
+          ? currentTime && currentTime >= FINAL_UNLOCK_TIME
           : houseTimers[index] !== null &&
-            currentTime !== null &&
+            currentTime &&
             currentTime >= houseTimers[index]!;
+
+        // Default to non-available if currentTime is null
+        const isHouseDisabled = !currentTime || (!isAvailable && !isFinalHouse);
 
         const shouldShowTimer = index === currentHouse || isFinalHouse; // Only show timer for the current house or the final house
 
@@ -166,7 +169,7 @@ export default function Home() {
 
             {/* Timer */}
             {!isAvailable && shouldShowTimer && (
-              <div className="absolute w-40 top-0 left-40 bg-white text-center text-black  text-lg p-2 rounded z-50">
+              <div className="absolute w-40 top-0 left-32 bg-white text-center text-black  text-lg p-2 rounded z-50">
                 {isFinalHouse
                   ? `Отключване след ${days}д, ${hours}ч, ${minutes}мин и ${seconds}сек`
                   : `Отключване след ${minutes}мин и ${seconds}сек`}
