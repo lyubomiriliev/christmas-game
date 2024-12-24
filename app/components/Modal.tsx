@@ -170,7 +170,9 @@ const Modal: React.FC<ModalProps> = ({
               gameTitle={gameTitle}
               gameObj={gameObj}
               onComplete={() => {
-                alert("Пъзелът е решен. Браво! Твоята улика е:");
+                alert(
+                  "Пъзелът е решен. Браво! Обърни се към леля Вяра за подарък."
+                );
                 onClose(); // Close the modal on completion
               }}
             />
