@@ -107,7 +107,7 @@ const SlidePuzzle: React.FC<SlidePuzzleProps> = ({
           {!timerRunning && (
             <div>
               <button
-                className="bg-red-600 px-6 py-1 rounded-lg text-white font-bold"
+                className="bg-green-600 px-6 py-1 rounded-lg text-white font-bold"
                 onClick={startTimer}
               >
                 СТАРТ

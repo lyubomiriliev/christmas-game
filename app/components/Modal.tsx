@@ -45,9 +45,8 @@ const Modal: React.FC<ModalProps> = ({
   };
 
   const checkPassword = () => {
-    const correctPassword = "vyara123";
+    const correctPassword = "1";
     if (passwordInput === correctPassword) {
-      alert("Поздравления! Успешно отключихте нивото.");
       setShowPassword(!showPassword);
     } else {
       alert("Грешна парола. Опитайте отново.");
@@ -68,8 +67,7 @@ const Modal: React.FC<ModalProps> = ({
 
   // Render different game types
   const renderGameContent = () => {
-    if (!game)
-      return <p className="text-xl">No game available for this level.</p>;
+    if (!game) return null;
 
     switch (game.type) {
       case "quiz":
@@ -211,8 +209,8 @@ const Modal: React.FC<ModalProps> = ({
               target="_blank"
               rel="noopener noreferrer"
             >
-              <button className="px-6 py-3 bg-red-500 text-white font-bold rounded-lg">
-                ЗАПОЧНИ ИГРАТА
+              <button className="px-6 py-3 bg-green-500 text-white font-bold rounded-lg">
+                ЗАПОЧНИ ИГРАТА!
               </button>
             </a>
           </div>
@@ -230,8 +228,6 @@ const Modal: React.FC<ModalProps> = ({
             ))}
           </div>
         );
-      default:
-        return <p>Game type not supported.</p>;
     }
   };
 

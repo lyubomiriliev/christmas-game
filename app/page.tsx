@@ -15,8 +15,8 @@ export default function Home() {
   const [currentTime, setCurrentTime] = useState<number | null>(null); // Set to `null` initially to avoid SSR mismatches
 
   //HOUSES DELAY TIME:
-  const DELAY = 0.5 * 60 * 1000; // Timer delay in milliseconds
-  const FINAL_UNLOCK_TIME = new Date("2024-12-24T23:00:00").getTime();
+  const DELAY = 0; // Timer delay in milliseconds
+  const FINAL_UNLOCK_TIME = 0;
 
   // Initialize timers for houses
   useEffect(() => {
@@ -172,7 +172,7 @@ export default function Home() {
               height={400}
               className={`hover-scale-110 duration-300 ease-in-out ${
                 ((index >= 0 && index <= 3) || isFinalHouse) && !isAvailable
-                  ? "blur-sm pointer-events-none"
+                  ? "pointer-events-none"
                   : "cursor-pointer"
               }`}
             />
