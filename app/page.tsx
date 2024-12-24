@@ -153,7 +153,6 @@ export default function Home() {
             currentTime >= houseTimers[index]!;
 
         // Default to non-available if currentTime is null
-        const isHouseDisabled = !currentTime || (!isAvailable && !isFinalHouse);
 
         const shouldShowTimer =
           isFinalHouse || (index < 4 && index === currentHouse);
@@ -193,7 +192,6 @@ export default function Home() {
         isOpen={modalOpen}
         onClose={handleCloseModal}
         content={modalContent}
-        level={modalNumber?.toString() || ""}
         game={modalNumber !== null ? houses[modalNumber]?.game : undefined}
         player={modalNumber !== null ? houses[modalNumber]?.player : ""}
         playerPic={modalNumber !== null ? houses[modalNumber]?.playerPic : ""}

@@ -14,7 +14,6 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   content: string;
-  level: string;
   game?: Game;
   player: string;
   playerPic: string;
@@ -24,7 +23,6 @@ const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
   content,
-  level,
   game,
   player,
   playerPic,

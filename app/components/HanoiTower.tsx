@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 
-const TOWER_COUNT = 3; // Number of towers
 const INITIAL_DISKS = 5; // Number of disks
 
 // Tower of Hanoi Component
